@@ -17,6 +17,11 @@ We will need to know the topology with the proper mathematical framework. We wil
 * Inclusionof weather influence
 * Snow/Other materials simulation
 * ...
+### Folder Structure
+
+mountain_sim/
+└── README.md
+
 ## Execution
 
 
