@@ -18,10 +18,16 @@ We will need to know the topology with the proper mathematical framework. We wil
 * Snow/Other materials simulation
 * ...
 ### Folder Structure
-
-mountain_sim/
-└── README.md
-
+- Root
+  - Folder 1
+    - Subfolder 1
+      - File 1
+      - File 2
+    - Subfolder 2
+      - File 3
+  - Folder 2
+    - File 4
+    - File 5
 ## Execution
 
 
