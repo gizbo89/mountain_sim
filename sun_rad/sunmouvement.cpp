@@ -60,3 +60,18 @@ for (i=0; psi<= 2*pi; i++)
 
 return 0;
 }
+
+
+void shade_projector(const DEM & DEM_, Eigen::Vector3d ray, DEM & Shade){
+  /*
+  This function takes a raster DEM_ that has the height associated to each pixel.
+  ray is the vector that contains the solar ray direction in the same frame of reference than DEM_.
+  Shade will be edited following the shade projection algorithm:
+  For each pixel in order to check if its under shade, we take the direction defined by the projection of ray onto DEM_,
+  if the pixels in that direction have a height higher than the elevation given by the ray departing from the current pixel, then the pixel is shaded.
+  ASSUMPTIONS:
+  * DEM objects are W->E in the sense of growing columns
+  * DEM objects are N->S in the sense of growing rows
+  */
+
+}

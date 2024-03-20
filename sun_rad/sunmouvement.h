@@ -9,6 +9,7 @@
 #define SUN_RAD_SUNMOUVEMENT_H_
 #include "common/common.h"
 
-Eigen::VectorXd solar_incident_angle();
+Eigen::Vector3d solar_incident_angle();
+void shade_projector(const DEM & DEM_, Eigen::Vector3d ray, DEM & Shade);
 
 #endif /* SUN_RAD_SUNMOUVEMENT_H_ */
