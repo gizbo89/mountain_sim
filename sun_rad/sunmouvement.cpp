@@ -1,6 +1,6 @@
 #include "sunmouvement.h"
 
-Eigen::VectorXd solar_incident_angle() {
+Eigen::Vector3d solar_incident_angle() {
   const double pi = 3.14159;
   double var1;
   cout<<"Introduzca la posición de la tierra en la eclíptica: {0:90(primavera),90:180(verano),180:270(otoño),270:360(invierno)}"<<endl;
@@ -38,27 +38,27 @@ Eigen::VectorXd solar_incident_angle() {
   unb3 = T*unb3;
   ofstream myfile;
   myfile.open ("output.txt");
-for (i=0; psi<= 2*pi; i++)
-{
-   const double cospsi = cos(psi);
-   const double sinpsi = sin(psi);
-   const tensor rot {cospsi,cospsi,1.0,0.0,0.0,sinpsi};
-   vector urhob3;
-   urhob3 = (rot*(nut*prec))*urhob;
-   urhob3 = T*urhob3;
-   //myfile <<  "\n{u_rho}_b3*{u_n}_b3= " << urhob3*unb3 << endl;
-   //myfile <<  "{u_rho}_b3"<< endl << urhob3 << endl;
-   if (urhob3*unb3<=0.0){
-   myfile << 1.0 <<" "<< 1.0 << " " << 0.0 <<" "<< -urhob3.v[0] << " "<< -urhob3.v[1] << " "<< -urhob3.v[2]  << endl;
-   }
-   psi+=inc;
-}
-  myfile << 1.0 <<" "<< 1.0 << " " << 0.0 <<" "<< unb3.v[0] << " "<< unb3.v[1] << " "<< unb3.v[2]  << endl;
-  myfile << 1.0 <<" "<< 1.0 << " " << 0.0 <<" "<< -1.0 << " "<< 0.0 << " "<< 0.0  << endl;
-  myfile.close();
-  
+	for (i=0; psi<= 2*pi; i++)
+	{
+	   const double cospsi = cos(psi);
+	   const double sinpsi = sin(psi);
+	   const tensor rot {cospsi,cospsi,1.0,0.0,0.0,sinpsi};
+	   vector urhob3;
+	   urhob3 = (rot*(nut*prec))*urhob;
+	   urhob3 = T*urhob3;
+	   //myfile <<  "\n{u_rho}_b3*{u_n}_b3= " << urhob3*unb3 << endl;
+	   //myfile <<  "{u_rho}_b3"<< endl << urhob3 << endl;
+	   if (urhob3*unb3<=0.0){
+	   myfile << 1.0 <<" "<< 1.0 << " " << 0.0 <<" "<< -urhob3.v[0] << " "<< -urhob3.v[1] << " "<< -urhob3.v[2]  << endl;
+	   }
+	   psi+=inc;
+	}
+	  myfile << 1.0 <<" "<< 1.0 << " " << 0.0 <<" "<< unb3.v[0] << " "<< unb3.v[1] << " "<< unb3.v[2]  << endl;
+	  myfile << 1.0 <<" "<< 1.0 << " " << 0.0 <<" "<< -1.0 << " "<< 0.0 << " "<< 0.0  << endl;
+	  myfile.close();
 
-return 0;
+
+	return 0;
 }
 
 
