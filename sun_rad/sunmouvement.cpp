@@ -42,8 +42,8 @@ Eigen::Vector3d solar_incident_angle(const double gamma_deg, const double lat) {
 	   const double cospsi = cos(psi);
 	   const double sinpsi = sin(psi);
 	   Eigen::Matrix3d rot;
-	   rot << cospi, sinpsi, 0.0,
-		  	  sinpsi, cospi, 0.0,
+	   rot << cospsi, sinpsi, 0.0,
+		  	  sinpsi, cospsi, 0.0,
 			  0.0,    0.0, 1.0;
 	   Eigen::Vector3d urhob3;
 	   urhob3 = (rot*(nut*prec))*urhob;
@@ -58,7 +58,7 @@ Eigen::Vector3d solar_incident_angle(const double gamma_deg, const double lat) {
 }
 
 
-void shade_projector(const DEM & DEM_, Eigen::Vector3d ray, DEM & Shade){
+void shade_projector(const DEM & DEM_,  double lat, Geotiff & Shade){
   /*
   This function takes a raster DEM_ that has the height associated to each pixel.
   ray is the vector that contains the solar ray direction in the same frame of reference than DEM_.

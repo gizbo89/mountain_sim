@@ -4,33 +4,9 @@
  *  Created on: Mar 20, 2024
  *      Author: gizbo89
  */
-#include "iostream"
-#include "string"
-#include "gdal_priv.h"
-#include "cpl_conv.h"
-#include "gdalwarper.h"
-#include "stdlib.h"
-using namespace std;
-typedef std::string String;
+#include "geotiff.h"
 
-class Geotiff {
-
-  private: // NOTE: "private" keyword is redundant here.
-           // we place it here for emphasis. Because these
-           // variables are declared outside of "public",
-           // they are private.
-
-    const char* filename;        // name of Geotiff
-    GDALDataset *geotiffDataset; // Geotiff GDAL datset object.
-    double geotransform[6];      // 6-element geotranform array.
-    int dimensions[3];           // X,Y, and Z dimensions.
-    int NROWS,NCOLS,NLEVELS;     // dimensions of data in Geotiff.
-
-  public:
-
-    // define constructor function to instantiate object
-    // of this Geotiff class.
-    Geotiff( const char* tiffname ) {
+ Geotiff::Geotiff( const char* tiffname ) {
       filename = tiffname ;
       GDALAllRegister();
 
@@ -47,13 +23,13 @@ class Geotiff {
     // define destructor function to close dataset,
     // for when object goes out of scope or is removed
     // from memory.
-    ~Geotiff() {
+ Geotiff::~Geotiff() {
       // close the Geotiff dataset, free memory for array.
       GDALClose(geotiffDataset);
       GDALDestroyDriverManager();
     }
 
-    const char *GetFileName() {
+    const char * Geotiff::GetFileName() {
       /*
        * function GetFileName()
        * This function returns the filename of the Geotiff.
@@ -61,7 +37,7 @@ class Geotiff {
       return filename;
     }
 
-    const char *GetProjection() {
+    const char * Geotiff::GetProjection() {
       /* function const char* GetProjection():
        *  This function returns a character array (string)
        *  for the projection of the geotiff file. Note that
@@ -73,7 +49,7 @@ class Geotiff {
       return geotiffDataset->GetProjectionRef();
     }
 
-    double *GetGeoTransform() {
+    double * Geotiff::GetGeoTransform() {
       /*
        * function double *GetGeoTransform()
        *  This function returns a pointer to a double that
@@ -84,7 +60,7 @@ class Geotiff {
       return geotransform;
     }
 
-    double GetNoDataValue() {
+    double Geotiff::GetNoDataValue() {
       /*
        * function GetNoDataValue():
        *  This function returns the NoDataValue for the Geotiff dataset.
@@ -93,7 +69,7 @@ class Geotiff {
       return (double)geotiffDataset->GetRasterBand(1)->GetNoDataValue();
     }
 
-    int *GetDimensions() {
+    int * Geotiff::GetDimensions() {
       /*
        * int *GetDimensions():
        *
@@ -110,7 +86,7 @@ class Geotiff {
       return dimensions;
     }
 
-   float** GetRasterBand(int z) {
+   float** Geotiff::GetRasterBand(int z) {
 
       /*
        * function float** GetRasterBand(int z):
@@ -159,7 +135,7 @@ class Geotiff {
     }
 
     template<typename T>
-    float** GetArray2D(int layerIndex,float** bandLayer) {
+    float** Geotiff::GetArray2D(int layerIndex,float** bandLayer) {
 
        /*
         * function float** GetArray2D(int layerIndex):
@@ -208,7 +184,7 @@ class Geotiff {
        return bandLayer;
     }
 
-};
+
 
 
 
