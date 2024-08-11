@@ -29,15 +29,13 @@ Eigen::Vector3d solar_incident_angle(const double gamma_deg, const double lat) {
   const double coslat = cos(philat);
   const double sinlat = sin(philat);
 
+  //Vector representing the sun rays in a system reference attached to the sun
+  Eigen::Vector3d urhob;
+  urhob << cos(gamma), sin(gamma), 0.0;
+
   //Vector attached to earth system of reference
   Eigen::Vector3d unb3;
   unb3 << coslat, 0.0, sinlat;
-
-  //Vector representing the sun rays in a system reference attached to the sun
-  Eigen::Vector3d urhob;
-  unb3 << cos(gamma), sin(gamma), 0.0;
-
-
   Eigen::Matrix3d T;
     T << sinlat, 0.0, -coslat,
   		 0.0,    1.0,     0.0,
