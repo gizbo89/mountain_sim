@@ -9,11 +9,12 @@
 #define INPUT_GEOTIFF_H_
 #include "iostream"
 #include "string"
+#include <memory>
 #include "gdal_priv.h"
 #include "cpl_conv.h"
 #include "gdalwarper.h"
 #include "stdlib.h"
-using namespace std;
+#include "common/common.h"
 typedef std::string String;
 
 class Geotiff {
@@ -24,6 +25,8 @@ class Geotiff {
     double geotransform[6];      // 6-element geotranform array.
     int dimensions[3];           // X,Y, and Z dimensions.
     int NROWS,NCOLS,NLEVELS;     // dimensions of data in Geotiff.
+    template<typename T>
+    shared_ptr<MatrixXf> GetArray2D(int layerIndex);
 
   public:
 
@@ -36,8 +39,8 @@ class Geotiff {
     double *GetGeoTransform();
     double GetNoDataValue();
     int *GetDimensions();
-    float** GetRasterBand(int z);
-    template<typename T>
-    float** GetArray2D(int layerIndex,float** bandLayer);
+    std::shared_ptr<MatrixXf> GetRasterBand_(int z);
+
+
 };
 #endif /* INPUT_GEOTIFF_H_ */

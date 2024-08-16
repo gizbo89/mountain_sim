@@ -7,5 +7,11 @@ int main(int argc, char **argv) {
 	Geotiff input(DEMpath);
 	int* p = input.GetDimensions();
 	std::cout << p[0]<<" " << p[1]<<" " << p[2] << std::endl;
+	auto mat = input.GetRasterBand_(1);
+	for (int i = 0; i < mat->rows(); ++i) {
+	        for (int j = 0; j < mat->cols(); ++j) {
+	            std::cout << "Element at (" << i << ", " << j << ") = " << (*mat)(i, j) << std::endl;
+	        }
+	    }
 	return 0;
 }

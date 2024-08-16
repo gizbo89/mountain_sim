@@ -1,6 +1,6 @@
 CC     = g++
 HERE   = $(CURDIR)
-INCLUDEPATH += -I/usr/local/include -I/usr/include/gdal/
+INCLUDEPATH += -I/usr/local/include -I/usr/include/gdal/ -I$(PWD)
 CPPFLAGS = -Wall -std=c++11 -pthread -O3 $(INCLUDEPATH)
 LIBRARIES= -L/usr/lib
 LIBS     = -lgdal
