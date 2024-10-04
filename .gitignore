@@ -31,3 +31,8 @@
 *.out
 *.app
 /build/
+
+#Latex files
+*.aux
+*.log
+*.pdf

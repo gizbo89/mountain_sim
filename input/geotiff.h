@@ -40,6 +40,7 @@ class Geotiff {
     double GetNoDataValue();
     int *GetDimensions();
     std::shared_ptr<MatrixXf> GetRasterBand_(int z);
+    //addRasterBand(const MatrixXf & sample);
 
 
 };

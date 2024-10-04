@@ -7,6 +7,7 @@ LIBS     = -lgdal
 DEPS   = nvector.h
 EXEC   = exe 
 OBJ    = $(HERE)/input/geotiff.o \
+		$(HERE)/common/logger.o \
 	 	mountain_sim.o
 ####$@: is the output variable, below is the .o
 #Out of date if .o does not exist or .o is older than .c or DEPS=>build

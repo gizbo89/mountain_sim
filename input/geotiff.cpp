@@ -13,7 +13,7 @@
 
       // set pointer to Geotiff dataset as class member.
       geotiffDataset = (GDALDataset*) GDALOpen(filename, GA_ReadOnly);
-
+      
       // set the dimensions of the Geotiff
       NROWS   = GDALGetRasterYSize( geotiffDataset );
       NCOLS   = GDALGetRasterXSize( geotiffDataset );
@@ -194,6 +194,56 @@
       return mymatrix;
   }
 
+  /*
+
+  addRasterBand(const MatrixXf & sample){
+      // Initialize GDAL
+    GDALAllRegister();
+
+    // Open the existing GeoTIFF file in update mode
+    GDALDataset *poDataset = (GDALDataset *)GDALOpen(this->filename, GA_Update);
+    if (poDataset == nullptr) {
+        printf("Failed to open the file.\n");
+        return 1;
+    }
+
+    // Get dimensions of the dataset
+    int xSize = poDataset->GetRasterXSize();
+    int ySize = poDataset->GetRasterYSize();
+
+    // Add a new band to the dataset (e.g., of type GDT_Byte)
+    CPLErr eErr = poDataset->AddBand(GDT_Byte, nullptr);
+    if (eErr != CE_None) {
+        printf("Failed to add a new band.\n");
+        GDALClose(poDataset);
+        return 1;
+    }
+
+    // Get the new band (the last band)
+    int newBandIndex = poDataset->GetRasterCount(); // Get the number of bands (the new band is the last one)
+    GDALRasterBand *poBand = poDataset->GetRasterBand(newBandIndex);
+
+    // Optionally write data to the new band
+    // Create a buffer to hold the new band data (example: fill with 0's)
+    unsigned char *buffer = (unsigned char *)CPLMalloc(sizeof(unsigned char) * this->NROWS * this->NCOLS);
+    memset(buffer, 0, this->NROWS * this->NCOLS);
+
+    // Write the buffer to the new band
+    eErr = poBand->RasterIO(GF_Write, 0, 0, xSize, ySize, buffer, xSize, ySize, GDT_Byte, 0, 0);
+    if (eErr != CE_None) {
+        printf("Failed to write data to the new band.\n");
+        CPLFree(buffer);
+        GDALClose(poDataset);
+        return 1;
+    }
+
+    // Free the buffer
+    CPLFree(buffer);
+
+    // Close the dataset and clean up
+    GDALClose(poDataset);
+  }
+*/
 
 
 
