@@ -1,10 +1,9 @@
 CC     = g++
 HERE   = $(CURDIR)
-INCLUDEPATH += -I/usr/local/include -I/usr/include/gdal/ -I$(PWD)
+INCLUDEPATH += -I/usr/local/include -I$(PWD)
 CPPFLAGS = -Wall -std=c++11 -pthread -O3 $(INCLUDEPATH)
-LIBRARIES= -L/usr/lib
+LIBRARIES= -L/usr/local/lib
 LIBS     = -lgdal
-DEPS   = nvector.h
 EXEC   = exe 
 OBJ    = $(HERE)/input/geotiff.o \
 		$(HERE)/common/logger.o \

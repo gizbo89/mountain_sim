@@ -30,5 +30,6 @@ We will need to know the topology with the proper mathematical framework. We wil
     - File 5
 ## Execution
 
-
-
+## Dependencies
+- gdal-3.10.0: https://gdal.org/en/stable/development/building_from_source.html
+- Eigen 3.4.0
