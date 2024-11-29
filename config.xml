@@ -1,19 +1,12 @@
-<?xml version = \"1.0\" encoding = \"utf-8\"?>
-<tv>
-    <series>
-        <name>House of Cards</name>
-        <genre>Drama</genre>
-        <year>2013-2018</year>
-        <creator>Beau Willimon</creator>
-        <imdb>8.7</imdb>
-        <stream>Netflix</stream>
-     </series>
-     <series>
-         <name>Fullmetal Alchemist</name>
-         <genre>Animation, Action and Adventure</genre>
-         <year>2003-2004</year>
-         <creator>Hiromu Arakawa</creator>
-         <imdb>8.5</imdb>
-         <stream>Netflix</stream>
-    </series>
-</tv>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<root>
+   <ApplicationSettings
+           option_a = "10"
+           option_b = "24"
+           >
+   </ApplicationSettings>
+   <OtherStuff
+           option_x = "500"
+           >
+   </OtherStuff>
+</root>
