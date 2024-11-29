@@ -33,3 +33,4 @@ We will need to know the topology with the proper mathematical framework. We wil
 ## Dependencies
 - gdal-3.10.0: https://gdal.org/en/stable/development/building_from_source.html
 - Eigen 3.4.0
+- xerces-c-3.3.0

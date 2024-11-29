@@ -3,9 +3,10 @@ HERE   = $(CURDIR)
 INCLUDEPATH += -I/usr/local/include -I$(PWD)
 CPPFLAGS = -Wall -std=c++11 -pthread -O3 $(INCLUDEPATH)
 LIBRARIES= -L/usr/local/lib
-LIBS     = -lgdal
+LIBS     = -lgdal -lxerces-c
 EXEC   = exe 
 OBJ    = $(HERE)/input/geotiff.o \
+		$(HERE)/input/config_parser.o \
 		$(HERE)/common/logger.o \
 	 	mountain_sim.o
 ####$@: is the output variable, below is the .o
