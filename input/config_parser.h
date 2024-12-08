@@ -42,7 +42,9 @@ public:
    GetConfig();
   ~GetConfig();
    void readConfigFile(std::string&) noexcept(false);
-
+   char * search(const std::string& TAG, const std::string& ATTRIBUTE) noexcept(false);
+   void init(std::string& configFile) noexcept(false);
+   //Not sure these two functions are needed
    char *getOptionA() { return m_OptionA; };
    char *getOptionB() { return m_OptionB; };
 
@@ -52,11 +54,11 @@ private:
    char* m_OptionB;
 
    // Internal class use only. Hold Xerces data in UTF-16 SMLCh type.
-
+   //TODO should be an array of pointers to XMLCh*
    XMLCh* TAG_root;
-
    XMLCh* TAG_ApplicationSettings;
    XMLCh* ATTR_OptionA;
    XMLCh* ATTR_OptionB;
+   XMLCh* tag_attr[];
 };
 #endif

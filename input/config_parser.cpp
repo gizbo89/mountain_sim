@@ -43,6 +43,9 @@ GetConfig::GetConfig()
 
    // Tags and attributes used in XML file.
    // Can't call transcode till after Xerces Initialize()
+   /*
+    * Seems that here I should list all TAGS and ATTRIBUTES, and for any new change in config file
+    *  I should incluse here. Can be pretty nasty.*/
    TAG_root        = XMLString::transcode("root");
    TAG_ApplicationSettings = XMLString::transcode("ApplicationSettings");
    ATTR_OptionA = XMLString::transcode("option_a");
@@ -53,7 +56,7 @@ GetConfig::GetConfig()
 
 /**
  *  Class destructor frees memory used to hold the XML tag and
- *  attribute definitions. It als terminates use of the xerces-C
+ *  attribute definitions. It also terminates use of the xerces-C
  *  framework.
  */
 
@@ -62,9 +65,10 @@ GetConfig::~GetConfig()
    // Free memory
 
    delete m_ConfigFileParser;
+   // TODO: Should be released in a loop
    if(m_OptionA)   XMLString::release( &m_OptionA );
    if(m_OptionB)   XMLString::release( &m_OptionB );
-
+   // TODO: Should be released in a loop
    try
    {
       XMLString::release( &TAG_root );
@@ -92,6 +96,107 @@ GetConfig::~GetConfig()
       XMLString::release( &message );
    }
 }
+
+
+/**
+ *  This function:
+ *  - Tests the access and availability of the XML configuration file.
+ *  - Configures the xerces-c DOM parser.
+ *  - Reads and extracts the pertinent information from the XML config file.
+ *
+ *  @param in configFile The text string name of the HLA configuration file.
+ */
+
+void GetConfig::init(string& configFile) noexcept(false)
+{
+   // Test to see if the file is ok.
+
+   struct stat fileStatus;
+
+   errno = 0;
+   if(stat(configFile.c_str(), &fileStatus) == -1) // ==0 ok; ==-1 error
+   {
+       if( errno == ENOENT )      // errno declared by include file errno.h
+          throw ( std::runtime_error("Path file_name does not exist, or path is an empty string.") );
+       else if( errno == ENOTDIR )
+          throw ( std::runtime_error("A component of the path is not a directory."));
+       else if( errno == ELOOP )
+          throw ( std::runtime_error("Too many symbolic links encountered while traversing the path."));
+       else if( errno == EACCES )
+          throw ( std::runtime_error("Permission denied."));
+       else if( errno == ENAMETOOLONG )
+          throw ( std::runtime_error("File can not be read\n"));
+   }
+
+   // Configure DOM parser.
+
+   m_ConfigFileParser->setValidationScheme( XercesDOMParser::Val_Never );
+   m_ConfigFileParser->setDoNamespaces( false );
+   m_ConfigFileParser->setDoSchema( false );
+   m_ConfigFileParser->setLoadExternalDTD( false );
+
+   try
+   {
+      m_ConfigFileParser->parse( configFile.c_str() );
+   }
+   catch( xercesc::XMLException& e )
+  {
+	 char* message = xercesc::XMLString::transcode( e.getMessage() );
+	 ostringstream errBuf;
+	 errBuf << "Error parsing file: " << message << flush;
+	 XMLString::release( &message );
+  }
+}
+
+char * GetConfig::search(const std::string& TAG, const std::string& ATTRIBUTE) noexcept(false)
+{
+   try
+   {
+      // no need to free this pointer - owned by the parent parser object
+      DOMDocument* xmlDoc = m_ConfigFileParser->getDocument();
+
+      // Get the top-level element: NAme is "root". No attributes for "root"
+
+      DOMElement* elementRoot = xmlDoc->getDocumentElement();
+      if( !elementRoot ) throw(std::runtime_error( "empty XML document" ));
+
+      // Parse XML file for tags of interest: "ApplicationSettings"
+      // Look one level nested within "root". (child of root)
+
+      DOMNodeList*      children = elementRoot->getChildNodes();
+      const  XMLSize_t nodeCount = children->getLength();
+      XMLCh* TAG_        = XMLString::transcode(TAG.c_str());
+      XMLCh* ATTRIBUTE_        = XMLString::transcode(ATTRIBUTE.c_str());
+      // For all nodes, children of "root" in the XML tree.
+
+      for( XMLSize_t xx = 0; xx < nodeCount; ++xx )
+      {
+         DOMNode* currentNode = children->item(xx);
+         if( currentNode->getNodeType() &&  // true is not NULL
+             currentNode->getNodeType() == DOMNode::ELEMENT_NODE ) // is element
+         {
+            // Found node which is an Element. Re-cast node as element
+            DOMElement* currentElement
+                        = dynamic_cast< xercesc::DOMElement* >( currentNode );
+            if( XMLString::equals(currentElement->getTagName(), TAG_))
+            {
+               const XMLCh* xmlch_OptionA
+                     = currentElement->getAttribute(ATTRIBUTE_);
+               return XMLString::transcode(xmlch_OptionA);
+            }
+         }
+
+      }
+   }
+   catch( xercesc::XMLException& e )
+   {
+      char* message = xercesc::XMLString::transcode( e.getMessage() );
+      ostringstream errBuf;
+      errBuf << "Error parsing file: " << message << flush;
+      XMLString::release( &message );
+   }
+}
+
 
 /**
  *  This function:
@@ -171,9 +276,9 @@ void GetConfig::readConfigFile(string& configFile) noexcept(false)
                      = currentElement->getAttribute(ATTR_OptionB);
                m_OptionB = XMLString::transcode(xmlch_OptionB);
 
-               break;  // Data found. No need to look at other elements in tree.
             }
          }
+
       }
    }
    catch( xercesc::XMLException& e )
@@ -192,7 +297,7 @@ int main()
 {
    string configFile="sample.xml"; // stat file. Get ambigious segfault otherwise.
 
-   GetConfig appConfig;
+   GetConfig appConfig;//call to constructor
 
    appConfig.readConfigFile(configFile);
 
