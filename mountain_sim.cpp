@@ -11,7 +11,10 @@ int main(int argc, char **argv) {
 	}
 	string configFile(argv[1]);
 	GetConfig appConfig;//call to constructor
-	appConfig.readConfigFile(configFile);
+	appConfig.init(configFile);
+	std::cout<<appConfig.search("ApplicationSettings", "option_a")<<std::endl;
+	std::cout<<appConfig.search("ApplicationSettings", "option_b")<<std::endl;
+	std::cout<<appConfig.search("OtherStuff", "option_x")<<std::endl;
 	Logger* logger_ = Logger::GetInstance("/home/gizbo89/Desktop/test.log");
 	const char* DEMpath = "/home/gizbo89/Desktop/MDT02-ETRS89-HU31-0180-2-COB2.tif";
 	logger_->log(INFO, "Ingesting file");
