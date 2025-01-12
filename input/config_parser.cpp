@@ -111,6 +111,11 @@ void GetConfig::init(string& configFile) noexcept(false)
    try
    {
       m_ConfigFileParser->parse( configFile.c_str() );
+      // no need to free this pointer - owned by the parent parser object
+      DOMDocument* xmlDoc = m_ConfigFileParser->getDocument();
+      // Get the top-level element: NAme is "root". No attributes for "root"
+      DOMElement* elementRoot = xmlDoc->getDocumentElement();
+      if( !elementRoot ) throw(std::runtime_error( "empty XML document" ));
    }
    catch( xercesc::XMLException& e )
   {
@@ -118,25 +123,22 @@ void GetConfig::init(string& configFile) noexcept(false)
 	 ostringstream errBuf;
 	 errBuf << "Error parsing file: " << message << flush;
 	 XMLString::release( &message );
+	 throw;
   }
+   catch(exception& e){
+	   throw;
+   }
 }
 
 char * GetConfig::search(const std::string& TAG, const std::string& ATTRIBUTE) noexcept(false)
 {
    try
    {
-      // no need to free this pointer - owned by the parent parser object
-      DOMDocument* xmlDoc = m_ConfigFileParser->getDocument();
-
-      // Get the top-level element: NAme is "root". No attributes for "root"
-
-      DOMElement* elementRoot = xmlDoc->getDocumentElement();
-      if( !elementRoot ) throw(std::runtime_error( "empty XML document" ));
 
       // Parse XML file for tags of interest: "ApplicationSettings"
       // Look one level nested within "root". (child of root)
 
-      DOMNodeList*      children = elementRoot->getChildNodes();
+      DOMNodeList*      children = m_ConfigFileParser->getDocument()->getDocumentElement()->getChildNodes();
       const  XMLSize_t nodeCount = children->getLength();
       XMLCh* TAG_        = XMLString::transcode(TAG.c_str());
       XMLCh* ATTRIBUTE_        = XMLString::transcode(ATTRIBUTE.c_str());
@@ -168,6 +170,7 @@ char * GetConfig::search(const std::string& TAG, const std::string& ATTRIBUTE) n
       errBuf << "Error parsing file: " << message << flush;
       XMLString::release( &message );
    }
+   return nullptr;
 }
 
 

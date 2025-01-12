@@ -1,7 +1,7 @@
 /*
- * dualdouble.h
+ * common.h
  *
- *  Created on: Jul 20, 2018
+ *  Created on: 2024
  *      Author: dani
  */
 #ifndef COMMON_H_
