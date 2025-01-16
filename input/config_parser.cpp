@@ -21,11 +21,18 @@
 using namespace xercesc;
 using namespace std;
 
+
+GetConfig* GetConfig::config_ = nullptr;
+
 /**
  *  Constructor initializes xerces-C libraries.
  *  The XML tags and attributes which we seek are defined.
  *  The xerces-C DOM parser infrastructure is initialized.
  */
+GetConfig * GetConfig::GetInstance(){
+		if(config_ == nullptr) config_ = new GetConfig();
+		return config_;
+	}
 
 GetConfig::GetConfig()
 {

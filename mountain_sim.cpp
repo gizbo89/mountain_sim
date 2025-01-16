@@ -13,8 +13,8 @@ int main(int argc, char **argv) {
 
 
 	string configFile(argv[1]);
-	GetConfig appConfig;//call to constructor
-	try{appConfig.init(configFile);}
+	GetConfig* config_ = GetConfig::GetInstance();//call to constructor
+	try{config_->init(configFile);}
 	catch(exception &e){
 		std::cout<<e.what()<<std::endl;
 		return 1;
@@ -22,10 +22,10 @@ int main(int argc, char **argv) {
 		return 1;
 	}
 
-	Logger* logger_ = Logger::GetInstance(appConfig.search("Outputs", "log_name"));
+	Logger* logger_ = Logger::GetInstance(config_->search("Outputs", "log_name"));
 
 	logger_->log(INFO, "Ingesting file");
-	Geotiff input(appConfig.search("Inputs", "dem_path"));
+	Geotiff input(config_->search("Inputs", "dem_path"));
 	int* p = input.GetDimensions();
 	std::cout << p[0]<<" " << p[1]<<" " << p[2] << std::endl;
 	//auto mat = input.GetRasterBand_(1);

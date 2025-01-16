@@ -39,12 +39,17 @@ enum {
 class GetConfig
 {
 public:
-   GetConfig();
   ~GetConfig();
    char * search(const std::string& TAG, const std::string& ATTRIBUTE) noexcept(false);
    void init(std::string& configFile) noexcept(false);
+   static GetConfig *GetInstance();
+   GetConfig(GetConfig& other) = delete;
+   void operator=(const GetConfig &) = delete;
+
 
 private:
+   GetConfig();
+   static GetConfig* config_;
    xercesc::XercesDOMParser *m_ConfigFileParser;
 };
 #endif
