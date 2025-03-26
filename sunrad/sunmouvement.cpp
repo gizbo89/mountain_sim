@@ -63,11 +63,11 @@ Eigen::Vector3d solar_incident_angle(const double gamma_deg, const double lat) {
 	   psi+=inc;
 	}
 
-	return 0;
+	return unb4;//TODO
 }
 
 
-void shade_projector(const DEM & DEM_,  double lat, Geotiff & Shade){
+shared_ptr<MatrixXf> shade_projector(const Geotiff & DEM_){
   /*
   This function takes a raster DEM_ that has the height associated to each pixel.
   ray is the vector that contains the solar ray direction in the same frame of reference than DEM_.
@@ -78,5 +78,6 @@ void shade_projector(const DEM & DEM_,  double lat, Geotiff & Shade){
   * DEM objects are W->E in the sense of growing columns
   * DEM objects are N->S in the sense of growing rows
   */
-
+	std::shared_ptr<Eigen::MatrixXf> mymatrix = std::make_shared<Eigen::MatrixXf>(3,2);
+	return mymatrix;
 }

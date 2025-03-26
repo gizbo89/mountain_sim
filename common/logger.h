@@ -22,6 +22,7 @@ public:
 	Logger(Logger& other) = delete;
 	void operator=(const Logger &) = delete;
 	static Logger *GetInstance(const string& filename="/var/log/output.log");
+	static void cleanup();
 
 private:
 	Logger(const string& filename);

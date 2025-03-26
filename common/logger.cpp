@@ -4,6 +4,10 @@
 
 	Logger* Logger::logger_ = nullptr;
 
+	void Logger::cleanup() {
+		delete logger_;
+		logger_ = nullptr;
+	}
 
 	Logger * Logger::GetInstance(const string& filename){
 		if(logger_ == nullptr) logger_ = new Logger(filename);

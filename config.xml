@@ -2,7 +2,7 @@
 <root>
    <Inputs
            dem_path = "/home/gizbo89/Desktop/MDT02-ETRS89-HU31-0180-2-COB2.tif"
-           option_b = "24"
+           date = "2025-03-26"
            >
    </Inputs>
    <Outputs
