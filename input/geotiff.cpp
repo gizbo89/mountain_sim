@@ -87,7 +87,7 @@
     return dimensions;
   }
 
-  std::shared_ptr<MatrixXf> Geotiff::GetRasterBand_(int z) {
+  std::shared_ptr<MatrixXf> Geotiff::GetRasterBand_(int z) const{
 
     /*
       * function float** GetRasterBand_(int z):
@@ -136,7 +136,7 @@
   }
 
   template<typename T>
-  std::shared_ptr<MatrixXf> Geotiff::GetArray2D(int layerIndex) {
+  std::shared_ptr<MatrixXf> Geotiff::GetArray2D(int layerIndex) const{
 
       /*
       * function float** GetArray2D(int layerIndex):

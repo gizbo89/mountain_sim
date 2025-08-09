@@ -26,7 +26,7 @@ class Geotiff {
     int dimensions[3];           // X,Y, and Z dimensions.
     int NROWS,NCOLS,NLEVELS;     // dimensions of data in Geotiff.
     template<typename T>
-    shared_ptr<MatrixXf> GetArray2D(int layerIndex);
+    shared_ptr<MatrixXf> GetArray2D(int layerIndex) const;
 
   public:
 
@@ -39,7 +39,7 @@ class Geotiff {
     double *GetGeoTransform();
     double GetNoDataValue();
     int *GetDimensions();
-    std::shared_ptr<MatrixXf> GetRasterBand_(int z);
+    std::shared_ptr<MatrixXf> GetRasterBand_(int z) const;
     //addRasterBand(const MatrixXf & sample);
 
 
